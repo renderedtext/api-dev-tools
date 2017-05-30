@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe RamlVisualizer::PersistentSpecification do
+RSpec.describe RamlVisualizer::SpecificationJson do
   let(:fixture_path) { "spec/fixtures/json-output.json" }
 
   subject { described_class.new(fixture_path) }

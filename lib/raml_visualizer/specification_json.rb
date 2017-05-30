@@ -1,11 +1,11 @@
 require "json"
 
 module RamlVisualizer
-  class PersistentSpecification
+  class SpecificationJson
     attr_accessor :content
 
     def self.load(path)
-      PersistentSpecification.new(path).load
+      SpecificationJson.new(path).load
     end
 
     def initialize(path)
