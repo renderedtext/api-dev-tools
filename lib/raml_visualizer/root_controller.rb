@@ -1,28 +1,36 @@
 module RamlVisualizer
   class RootController
-    attr_accessor :resources, :entities
-
-    def initialize(source_path, destination_path)
-      @source_path = source_path
-      @destination_path = destination_path
+    def initialize(source, destination)
+      @source = source
+      @destination = destination
     end
 
-    def load_resources
-      json = SpecificationJson.load(@source_path)
+    def specification
+      @specification ||= SpecificationJson.content(@source)
+    end
 
-      nested_resources = json.content["resources"].map do |raw_resource|
-        RamlVisualizer::Resource.new(raw_resource).with_descendants
+    def resources
+      @resources ||= specification["resources"].map do |raw_resource|
+        Resource.new(raw_resource, specification["baseUri"]).with_descendants
+      end.flatten
+    end
+
+    def entities
+      base_uri = specification["baseUri"]
+
+      @entities ||= resources.group_by do |resource|
+        tokens = resource.absolute_uri.gsub(base_uri, "").split("/")
+
+        tokens.count >= 4 ? tokens[3] : tokens[1]
       end
-
-      @resources = nested_resources.flatten
     end
 
-    def create_entities
-      @entities = @resources.group_by(&:entity)
-    end
+    def generate_pages
+      FileUtils.mkdir_p(@destination)
 
-    def save_visualization
-
+      entities.map do |key, resources|
+        EntityPage.generate(key, resources, @destination)
+      end
     end
   end
 end
