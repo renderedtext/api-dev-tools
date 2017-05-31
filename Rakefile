@@ -9,3 +9,10 @@ task :default => :spec
 task :console do
   sh "irb -rubygems -I lib -r raml_visualizer.rb"
 end
+
+namespace :docs do
+  desc "It generates the documentation pages"
+  task :generate, [:source, :destination] do |_t, args|
+    RamlVisualizer::RootController.new(args[:source], args[:destination]).generate_pages
+  end
+end
