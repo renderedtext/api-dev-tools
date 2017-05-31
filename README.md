@@ -22,7 +22,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can try generation by typing:
+`bundle exec rake docs:generate['spec/fixtures/json_output.json','out']`
+or, if you're using ZSH:
+`bundle exec rake docs:generate\['spec/fixtures/json_output.json','out'\]`
 
 ## Development
 
