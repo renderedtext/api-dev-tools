@@ -1,16 +1,17 @@
 module RamlVisualizer
   class Resource
-    attr_reader :parent, :absolute_uri
+    attr_reader :parent, :raw_attributes
 
     def initialize(raw_resource, parent = nil)
       @parent = parent
 
-      @absolute_uri = raw_resource["absoluteUri"]
-      @raw_children = raw_resource["resources"] || []
+      @raw_attributes = raw_resource
     end
 
     def children
-      @children ||= @raw_children.map do |resource|
+      raw_children = @raw_attributes["resources"] || []
+
+      @children ||= raw_children.map do |resource|
         Resource.new(resource, self)
       end
     end
