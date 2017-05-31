@@ -1,18 +1,12 @@
 module RamlVisualizer
   class Resource
-    attr_reader :parent, :display_name
+    attr_reader :parent, :absolute_uri
 
     def initialize(raw_resource, parent = nil)
       @parent = parent
 
-      @display_name = raw_resource["display_name"]
+      @absolute_uri = raw_resource["absoluteUri"]
       @raw_children = raw_resource["resources"] || []
-    end
-
-    def entity
-      tokens = @display_name.split("/")
-
-      tokens.count >= 4 ? tokens[3] : tokens[1]
     end
 
     def children
