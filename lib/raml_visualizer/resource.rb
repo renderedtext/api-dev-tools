@@ -20,5 +20,13 @@ module RamlVisualizer
         Resource.new(resource, self)
       end
     end
+
+    def with_descendants
+      [self] + descendants
+    end
+
+    def descendants
+      children + children.map(&:descendants).flatten
+    end
   end
 end
