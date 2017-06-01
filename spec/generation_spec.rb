@@ -4,7 +4,8 @@ require "fileutils"
 RSpec.describe "Full integration" do
   let(:input_file) { "spec/fixtures/json_output.json" }
   let(:output_dir) { ".test_output" }
-  let(:controller) { RamlVisualizer::RootController.new(input_file, output_dir) }
+  let(:templates_dir) { "spec/fixtures" }
+  let(:controller) { RamlVisualizer::RootController.new(input_file, output_dir, templates_dir) }
 
   describe "full integration" do
     it "generates the entity pages" do

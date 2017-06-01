@@ -3,15 +3,14 @@ require "ostruct"
 
 module RamlVisualizer
   class EntityPage
-    TEMPLATE_PATH = "templates/entity.html.erb"
-
-    def self.generate(entity, resources, dir)
-      EntityPage.new(entity, resources).generate(dir)
+    def self.generate(entity, resources, template_path, destination_dir)
+      EntityPage.new(entity, resources, template_path).generate(destination_dir)
     end
 
-    def initialize(entity, resources)
+    def initialize(entity, resources, template_path)
       @entity = entity
       @resources = resources
+      @template_path = template_path
     end
 
     def generate(dir)
@@ -35,7 +34,7 @@ module RamlVisualizer
     end
 
     def template
-      @template ||= File.open(TEMPLATE_PATH, "rb") do |file|
+      @template ||= File.open(@template_path, "rb") do |file|
         ERB.new(file.read)
       end
     end

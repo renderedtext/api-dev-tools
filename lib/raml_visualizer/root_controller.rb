@@ -1,8 +1,9 @@
 module RamlVisualizer
   class RootController
-    def initialize(source, destination)
+    def initialize(source, destination, templates)
       @source = source
       @destination = destination
+      @templates = templates
     end
 
     def specification
@@ -28,9 +29,9 @@ module RamlVisualizer
     def generate_pages
       FileUtils.mkdir_p(@destination)
 
-      entities.map do |key, resources|
-        EntityPage.generate(key, resources, @destination)
-      end
+      factory = EntityPageFactory.new(@templates, @destination)
+
+      entities.map { |key, resources| factory.create_entity_page(key, resources) }
     end
   end
 end

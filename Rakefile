@@ -12,7 +12,7 @@ end
 
 namespace :docs do
   desc "It generates the documentation pages"
-  task :generate, [:source, :destination] do |_t, args|
-    RamlVisualizer::RootController.new(args[:source], args[:destination]).generate_pages
+  task :generate, [:source, :destination, :templates] do |_t, args|
+    RamlVisualizer::RootController.new(args[:source], args[:destination], args[:templates]).generate_pages
   end
 end

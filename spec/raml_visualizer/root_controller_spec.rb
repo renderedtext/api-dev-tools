@@ -3,8 +3,9 @@ require "spec_helper"
 RSpec.describe RamlVisualizer::RootController do
   let(:source_path) { "source" }
   let(:destination_path) { "destination" }
+  let(:template_path) { "templates" }
 
-  subject { described_class.new(source_path, destination_path) }
+  subject { described_class.new(source_path, destination_path, template_path) }
 
   before do
     @specification_json = double(RamlVisualizer::SpecificationJson)
@@ -57,7 +58,10 @@ RSpec.describe RamlVisualizer::RootController do
       subject.instance_variable_set(:@entities, { "users" => [@resource] })
 
       allow(FileUtils).to receive(:mkdir_p)
-      allow(RamlVisualizer::EntityPage).to receive(:generate)
+
+      @factory = double(RamlVisualizer::EntityPageFactory)
+      allow(@factory).to receive(:create_entity_page)
+      allow(RamlVisualizer::EntityPageFactory).to receive(:new).and_return(@factory)
     end
 
     it "generates the output directory" do
@@ -66,8 +70,14 @@ RSpec.describe RamlVisualizer::RootController do
       subject.generate_pages
     end
 
+    it "creates the page factory" do
+      expect(RamlVisualizer::EntityPageFactory).to receive(:new).with(template_path, destination_path)
+
+      subject.generate_pages
+    end
+
     it "generates the entity pages" do
-      expect(RamlVisualizer::EntityPage).to receive(:generate).with("users", [@resource], destination_path)
+      expect(@factory).to receive(:create_entity_page).with("users", [@resource])
 
       subject.generate_pages
     end
