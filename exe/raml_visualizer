@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require "raml_visualizer"
+
+raise "Arguments missing"  if ARGV.count < 3
+raise "Too many arguments" if ARGV.count > 3
+
+source_path, destination_path, template_path = ARGV
+
+RamlVisualizer::RootController.new(source_path, destination_path, template_path).generate_pages
