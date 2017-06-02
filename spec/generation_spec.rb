@@ -2,22 +2,32 @@ require "spec_helper"
 require "fileutils"
 
 RSpec.describe "Full integration" do
-  let(:input_file) { "spec/fixtures/json_output.json" }
-  let(:output_dir) { ".test_output" }
-  let(:templates_dir) { "spec/fixtures" }
-  let(:controller) { RamlVisualizer::RootController.new(input_file, output_dir, templates_dir) }
 
-  describe "full integration" do
-    it "generates the entity pages" do
-      controller.generate_pages
+  before(:all) do
+    input_file = "spec/fixtures/json_output.json"
+    @output_dir = ".spec_output"
+    templates_dir = "spec/fixtures/generation"
 
-      content = File.open("#{output_dir}/users.html", "rb") { |file| file.read }
-
-      expect(content).to include("users")
-    end
+    @controller = RamlVisualizer::RootController.new(input_file, @output_dir, templates_dir)
   end
 
-  after do
-    FileUtils.rm_rf(output_dir)
+  it "generates the index page" do
+    @controller.generate_index_page
+
+    content = File.open("#{@output_dir}/index.html", "rb") { |file| file.read }
+
+    expect(content).to include("users")
+  end
+
+  it "generates the entity pages" do
+    @controller.generate_entity_pages
+
+    content = File.open("#{@output_dir}/entities/users.html", "rb") { |file| file.read }
+
+    expect(content).to include("users")
+  end
+
+  after(:all) do
+    FileUtils.rm_rf(@output_dir)
   end
 end

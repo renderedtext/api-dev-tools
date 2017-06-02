@@ -13,6 +13,9 @@ end
 namespace :docs do
   desc "It generates the documentation pages"
   task :generate, [:source, :destination, :templates] do |_t, args|
-    RamlVisualizer::RootController.new(args[:source], args[:destination], args[:templates]).generate_pages
+    controller = RamlVisualizer::RootController.new(args[:source], args[:destination], args[:templates])
+
+    controller.generate_index_page
+    controller.generate_entity_pages
   end
 end

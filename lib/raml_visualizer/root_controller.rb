@@ -26,12 +26,23 @@ module RamlVisualizer
       end
     end
 
-    def generate_pages
-      FileUtils.mkdir_p(@destination)
+    def generate_index_page
+      template_path = "#{@templates}/index_template.html.erb"
 
-      factory = EntityPageFactory.new(@templates, @destination)
+      factory = PageFactory.build(template_path, @destination)
 
-      entities.map { |key, resources| factory.create_entity_page(key, resources) }
+      factory.generate_page("index", { :entities => entities.keys })
+    end
+
+    def generate_entity_pages
+      template_path = "#{@templates}/entities/entity_template.html.erb"
+      destination_dir = "#{@destination}/entities"
+
+      factory = PageFactory.build(template_path, destination_dir)
+
+      entities.map do |key, resources|
+        factory.generate_page(key, { :entity => key, :resources => resources })
+      end
     end
   end
 end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    raml_visualizer (0.5.0)
+    raml_visualizer (0.6.0)
 
 GEM
   remote: https://rubygems.org/

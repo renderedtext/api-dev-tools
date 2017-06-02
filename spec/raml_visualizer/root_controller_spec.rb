@@ -51,35 +51,47 @@ RSpec.describe RamlVisualizer::RootController do
     end
   end
 
-  describe "#generate_pages" do
+  context "page generation" do
     before do
+      @factory = double(RamlVisualizer::PageFactory)
+      allow(@factory).to receive(:generate_page)
+      allow(RamlVisualizer::PageFactory).to receive(:build).and_return(@factory)
+
       @resource = double(RamlVisualizer::Resource, :entity => "users")
-
       subject.instance_variable_set(:@entities, { "users" => [@resource] })
-
-      allow(FileUtils).to receive(:mkdir_p)
-
-      @factory = double(RamlVisualizer::EntityPageFactory)
-      allow(@factory).to receive(:create_entity_page)
-      allow(RamlVisualizer::EntityPageFactory).to receive(:new).and_return(@factory)
     end
 
-    it "generates the output directory" do
-      expect(FileUtils).to receive(:mkdir_p).with(destination_path)
+    describe "#generate_index_page" do
+      it "builds the page factory" do
+        expected_template_path = "#{template_path}/index_template.html.erb"
 
-      subject.generate_pages
+        expect(RamlVisualizer::PageFactory).to receive(:build).with(expected_template_path, destination_path)
+
+        subject.generate_index_page
+      end
+
+      it "generates the index page" do
+        expect(@factory).to receive(:generate_page).with("index", { :entities => ["users"] })
+
+        subject.generate_index_page
+      end
     end
 
-    it "creates the page factory" do
-      expect(RamlVisualizer::EntityPageFactory).to receive(:new).with(template_path, destination_path)
+    describe "#generate_entity_pages" do
+      it "builds the page factory" do
+        expected_template_path = "#{template_path}/entities/entity_template.html.erb"
+        expected_destination_path = "#{destination_path}/entities"
 
-      subject.generate_pages
-    end
+        expect(RamlVisualizer::PageFactory).to receive(:build).with(expected_template_path, expected_destination_path)
 
-    it "generates the entity pages" do
-      expect(@factory).to receive(:create_entity_page).with("users", [@resource])
+        subject.generate_entity_pages
+      end
 
-      subject.generate_pages
+      it "generates the entity pages" do
+        expect(@factory).to receive(:generate_page).with("users", { :entity => "users", :resources => [@resource] })
+
+        subject.generate_entity_pages
+      end
     end
   end
 end
