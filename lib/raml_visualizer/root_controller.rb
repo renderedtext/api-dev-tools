@@ -1,9 +1,10 @@
 module RamlVisualizer
   class RootController
-    def initialize(source, destination, templates)
+    def initialize(source, destination, templates, format)
       @source = source
       @destination = destination
       @templates = templates
+      @format = format
     end
 
     def specification
@@ -29,19 +30,19 @@ module RamlVisualizer
     def generate_index_page
       template_path = "#{@templates}/index_template.md.erb"
 
-      factory = PageFactory.build(template_path, @destination)
+      builder = PageBuilder.build(template_path, @destination, @format)
 
-      factory.generate_page("index", { :entities => entities.keys })
+      builder.generate_page("index", { :entities => entities.keys })
     end
 
     def generate_entity_pages
       template_path = "#{@templates}/entities/entity_template.md.erb"
       destination_dir = "#{@destination}/entities"
 
-      factory = PageFactory.build(template_path, destination_dir)
+      builder = PageBuilder.build(template_path, destination_dir, @format)
 
       entities.map do |key, resources|
-        factory.generate_page(key, { :entity => key, :resources => resources })
+        builder.generate_page(key, { :entity => key, :resources => resources })
       end
     end
   end
