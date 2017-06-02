@@ -3,9 +3,9 @@ require "fileutils"
 require "erb"
 
 RSpec.describe RamlVisualizer::Page do
-  let(:template_path) { "spec/fixtures/entity_template.html.erb" }
+  let(:template_path) { "spec/fixtures/entity_template.md.erb" }
   let(:output_dir) { "spec_output" }
-  let(:output_path) { "#{output_dir}/users.html" }
+  let(:output_path) { "#{output_dir}/users.md" }
 
   before do
     @template = File.open(template_path, "rb") { |file| ERB.new(file.read) }

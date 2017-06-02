@@ -14,7 +14,7 @@ RSpec.describe "Full integration" do
   it "generates the index page" do
     @controller.generate_index_page
 
-    content = File.open("#{@output_dir}/index.html", "rb") { |file| file.read }
+    content = File.open("#{@output_dir}/index.md", "rb") { |file| file.read }
 
     expect(content).to include("users")
   end
@@ -22,7 +22,7 @@ RSpec.describe "Full integration" do
   it "generates the entity pages" do
     @controller.generate_entity_pages
 
-    content = File.open("#{@output_dir}/entities/users.html", "rb") { |file| file.read }
+    content = File.open("#{@output_dir}/entities/users.md", "rb") { |file| file.read }
 
     expect(content).to include("users")
   end

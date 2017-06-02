@@ -27,7 +27,7 @@ module RamlVisualizer
     end
 
     def generate_index_page
-      template_path = "#{@templates}/index_template.html.erb"
+      template_path = "#{@templates}/index_template.md.erb"
 
       factory = PageFactory.build(template_path, @destination)
 
@@ -35,7 +35,7 @@ module RamlVisualizer
     end
 
     def generate_entity_pages
-      template_path = "#{@templates}/entities/entity_template.html.erb"
+      template_path = "#{@templates}/entities/entity_template.md.erb"
       destination_dir = "#{@destination}/entities"
 
       factory = PageFactory.build(template_path, destination_dir)

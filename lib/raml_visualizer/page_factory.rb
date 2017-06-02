@@ -19,7 +19,7 @@ module RamlVisualizer
     end
 
     def create_page(destination_type, args)
-      destination_path = "#{@destination_dir}/#{destination_type}.html"
+      destination_path = "#{@destination_dir}/#{destination_type}.md"
 
       Page.new(template, destination_path, args)
     end

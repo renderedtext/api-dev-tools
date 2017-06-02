@@ -39,7 +39,7 @@ RSpec.describe RamlVisualizer::PageFactory do
 
     describe "#create_page" do
       it "creates a page" do
-        destination = "#{destination_path}/users.html"
+        destination = "#{destination_path}/users.md"
 
         expect(RamlVisualizer::Page).to receive(:new).with(@template, destination, @args)
 

@@ -63,7 +63,7 @@ RSpec.describe RamlVisualizer::RootController do
 
     describe "#generate_index_page" do
       it "builds the page factory" do
-        expected_template_path = "#{template_path}/index_template.html.erb"
+        expected_template_path = "#{template_path}/index_template.md.erb"
 
         expect(RamlVisualizer::PageFactory).to receive(:build).with(expected_template_path, destination_path)
 
@@ -79,7 +79,7 @@ RSpec.describe RamlVisualizer::RootController do
 
     describe "#generate_entity_pages" do
       it "builds the page factory" do
-        expected_template_path = "#{template_path}/entities/entity_template.html.erb"
+        expected_template_path = "#{template_path}/entities/entity_template.md.erb"
         expected_destination_path = "#{destination_path}/entities"
 
         expect(RamlVisualizer::PageFactory).to receive(:build).with(expected_template_path, expected_destination_path)
