@@ -1,1 +1,5 @@
 Entities: <%= @entities %>
+
+<% @entities.map do |entity| %>
+  [<%= entity.capitalize %>](entities/<%= entity %>.html)
+<% end %>
