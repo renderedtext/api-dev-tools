@@ -1,3 +1,5 @@
+require "redcarpet"
+
 module RamlVisualizer
   class HtmlGenerator < Generator
     def initialize(destination_dir)
