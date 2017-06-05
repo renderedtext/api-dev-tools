@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe RamlVisualizer::Resource do
+RSpec.describe RamlVisualizer::Model::Resource do
   subject { described_class.new({}) }
 
   describe "#children" do
@@ -50,7 +50,7 @@ RSpec.describe RamlVisualizer::Resource do
       end
 
       it "returns descendants of type Resource" do
-        expect(subject.with_descendants.map(&:class).uniq.first).to eql(RamlVisualizer::Resource)
+        expect(subject.with_descendants.map(&:class).uniq.first).to eql(RamlVisualizer::Model::Resource)
       end
     end
   end
@@ -78,7 +78,7 @@ RSpec.describe RamlVisualizer::Resource do
       end
 
       it "returns descendants of type Resource" do
-        expect(subject.descendants.map(&:class).uniq.first).to eql(RamlVisualizer::Resource)
+        expect(subject.descendants.map(&:class).uniq.first).to eql(RamlVisualizer::Model::Resource)
       end
     end
   end
