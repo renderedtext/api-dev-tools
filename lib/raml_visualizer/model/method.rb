@@ -1,6 +1,8 @@
 module RamlVisualizer
   module Model
     class Method < Element
+      include ContentBearing
+
       def responses
         raw_responses = @raw["responses"].to_a
 

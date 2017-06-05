@@ -1,5 +1,6 @@
 require "raml_visualizer/version"
 require "raml_visualizer/model/element"
+require "raml_visualizer/model/content_bearing"
 require "raml_visualizer/model/response"
 require "raml_visualizer/model/method"
 require "raml_visualizer/model/resource"
