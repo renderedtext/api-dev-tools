@@ -1,5 +1,5 @@
-Entities: <%= @entities %>
+Entities:
 
 <% @entities.map do |entity| %>
-  [<%= entity.capitalize %>](entities/<%= entity %>.html)
+  [<%= entity %>](entities/<%= entity %>.html)
 <% end %>

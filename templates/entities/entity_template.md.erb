@@ -1,25 +1,61 @@
-#<%= @entity.capitalize %>
+<% require_relative "templates/entities/entity_helper.rb" %>
 
-<% @resources && @resources.each do |resource| %>
-##<%= resource.raw["parentUrl"] %><%= resource.raw["relativeUri"] %>
+#<%= @entity %>
+
+<% @resources.to_a.each do |resource| %>
+
+---
+
+##-> <%= resource_path(resource) %>
 
   <% resource.methods.each do |method| %>
-###<%= method.raw["method"] %>
 
-    <%= method.raw["description"].to_s.split("\n").first %>
+***
 
-    Responses:
+###--> <%= method.raw["method"] %>
+
+__Description:__
+
+  <%= method_short_description(method) %>
+
+  <% if method.body.any? %>
+__Request:__
+
+* Entity: <%= method.body["displayName"] %>
+
+* Type: <%= method.body["key"] %>
+
+    <% if method.properties.any? %>
+* Properties:
+
+<%= properties_table(method.properties) %>
+    <% end %>
+
+  <% end %>
+
+  <% if method.raw["allUriParameters"].to_a.any? %>
+__URL parameters:__
+
+<%= uri_parameters_table(method.raw["allUriParameters"]) %>
+  <% end %>
+
+__Responses:__
+
     <% method.responses.each do |response| %>
-####<%= response.raw["code"] %>
-      <% body = (response.raw["body"] && response.raw["body"].first).to_h %>
 
-      <%= body["displayName"] %>
-      <%= body["key"] %>
+___
 
-      Properties:
-      <% response.properties.each do |property| %>
-        <%= property.raw["displayName"] %>(<%= property.raw["type"] %>):
-        Required: <%= property.raw["required"] %>
+####----> <%= response.raw["code"] %>
+      <% body = response.body %>
+
+* Entity: <%= body_entity_name(response.body) %>
+
+* Type: <%= (key = response.body["key"]) ? key : "-" %>
+
+      <% if response.properties.any? %>
+* Properties:
+
+<%= properties_table(response.properties) %>
       <% end %>
 
     <% end %>
