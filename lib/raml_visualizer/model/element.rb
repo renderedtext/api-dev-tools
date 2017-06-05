@@ -1,10 +1,10 @@
 module RamlVisualizer
   module Model
     class Element
-      attr_reader :raw_attributes, :parent
+      attr_reader :raw, :parent
 
       def initialize(raw_element, parent = nil)
-        @raw_attributes = raw_element
+        @raw = raw_element
         @parent = parent
       end
     end

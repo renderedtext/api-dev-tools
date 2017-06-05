@@ -21,7 +21,7 @@ module RamlVisualizer
       base_uri = specification["baseUri"]
 
       @entities ||= resources.group_by do |resource|
-        tokens = resource.raw_attributes["absoluteUri"].gsub(base_uri, "").split("/")
+        tokens = resource.raw["absoluteUri"].gsub(base_uri, "").split("/")
 
         tokens.count >= 4 ? tokens[3] : tokens[1]
       end

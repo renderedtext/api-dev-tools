@@ -1,25 +1,25 @@
 #<%= @entity.capitalize %>
 
 <% @resources && @resources.each do |resource| %>
-##<%= resource.raw_attributes["parentUrl"] %><%= resource.raw_attributes["relativeUri"] %>
+##<%= resource.raw["parentUrl"] %><%= resource.raw["relativeUri"] %>
 
   <% resource.methods.each do |method| %>
-###<%= method["method"] %>
+###<%= method.raw["method"] %>
 
-    <%= method["description"].to_s.split("\n").first %>
+    <%= method.raw["description"].to_s.split("\n").first %>
 
     Responses:
     <% method.responses.each do |response| %>
-####<%= response["code"] %>
-      <% body = (response["body"] && response["body"].first).to_h %>
+####<%= response.raw["code"] %>
+      <% body = (response.raw["body"] && response.raw["body"].first).to_h %>
 
       <%= body["displayName"] %>
       <%= body["key"] %>
 
       Properties:
       <% response.properties.each do |property| %>
-        <%= property["displayName"] %>(<%= property["type"] %>):
-        Required: <%= property["required"] %>
+        <%= property.raw["displayName"] %>(<%= property.raw["type"] %>):
+        Required: <%= property.raw["required"] %>
       <% end %>
 
     <% end %>

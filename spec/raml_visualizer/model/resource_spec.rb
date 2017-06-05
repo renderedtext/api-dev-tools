@@ -3,6 +3,22 @@ require "spec_helper"
 RSpec.describe RamlVisualizer::Model::Resource do
   subject { described_class.new({}) }
 
+  describe "#methods" do
+    let(:method) { { "description" => "abc" } }
+
+    subject { described_class.new("methods" => [method]) }
+
+    describe "#methods" do
+      it "returns Method objects" do
+        expect(subject.methods.first).to be_a(RamlVisualizer::Model::Method)
+      end
+
+      it "returns the correct objects" do
+        expect(subject.methods.first.raw["description"]).to eql(method["description"])
+      end
+    end
+  end
+
   describe "#children" do
     context "subject has no children" do
       it "returns an empty array" do

@@ -12,7 +12,7 @@ RSpec.describe RamlVisualizer::Model::Method do
     end
 
     it "returns the correct objects" do
-      expect(subject.responses.first.raw_attributes["code"]).to eql(response["code"])
+      expect(subject.responses.first.raw["code"]).to eql(response["code"])
     end
   end
 end
