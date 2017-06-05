@@ -32,14 +32,14 @@ RSpec.describe RamlVisualizer::RootController do
 
   describe "#resources" do
     it "creates resources" do
-      expect(subject.resources.first).to be_a(RamlVisualizer::Resource)
+      expect(subject.resources.first).to be_a(RamlVisualizer::Model::Resource)
     end
   end
 
   describe "#entities" do
     before do
-      @resource_1 = double(RamlVisualizer::Resource, :raw_attributes => { "absoluteUri" => "/base/users" })
-      @resource_2 = double(RamlVisualizer::Resource, :raw_attributes => { "absoluteUri" => "/base/tokens" })
+      @resource_1 = double(RamlVisualizer::Model::Resource, :raw_attributes => { "absoluteUri" => "/base/users" })
+      @resource_2 = double(RamlVisualizer::Model::Resource, :raw_attributes => { "absoluteUri" => "/base/tokens" })
 
       subject.instance_variable_set(:@resources, [@resource_1, @resource_2])
       subject.instance_variable_set(:@specification, { "baseUri" => "/base" })
@@ -58,7 +58,7 @@ RSpec.describe RamlVisualizer::RootController do
       allow(@builder).to receive(:generate_page)
       allow(RamlVisualizer::PageBuilder).to receive(:build).and_return(@builder)
 
-      @resource = double(RamlVisualizer::Resource, :entity => "users")
+      @resource = double(RamlVisualizer::Model::Resource, :entity => "users")
       subject.instance_variable_set(:@entities, { "users" => [@resource] })
     end
 

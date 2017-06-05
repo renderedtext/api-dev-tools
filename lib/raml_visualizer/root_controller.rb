@@ -13,7 +13,7 @@ module RamlVisualizer
 
     def resources
       @resources ||= specification["resources"].map do |raw_resource|
-        Resource.new(raw_resource, specification["baseUri"]).with_descendants
+        Model::Resource.new(raw_resource, specification["baseUri"]).with_descendants
       end.flatten
     end
 

@@ -1,3 +1,29 @@
-Entity: <%= @entity %>
+#<%= @entity.capitalize %>
 
-<%= @resources.map { |resource| resource.raw_attributes["absoluteUri"] } %>
+<% @resources && @resources.each do |resource| %>
+##<%= resource.raw_attributes["parentUrl"] %><%= resource.raw_attributes["relativeUri"] %>
+
+  <% resource.methods.each do |method| %>
+###<%= method["method"] %>
+
+    <%= method["description"].to_s.split("\n").first %>
+
+    Responses:
+    <% method.responses.each do |response| %>
+####<%= response["code"] %>
+      <% body = (response["body"] && response["body"].first).to_h %>
+
+      <%= body["displayName"] %>
+      <%= body["key"] %>
+
+      Properties:
+      <% response.properties.each do |property| %>
+        <%= property["displayName"] %>(<%= property["type"] %>):
+        Required: <%= property["required"] %>
+      <% end %>
+
+    <% end %>
+
+  <% end %>
+
+<% end %>
