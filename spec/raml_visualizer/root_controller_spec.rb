@@ -38,11 +38,10 @@ RSpec.describe RamlVisualizer::RootController do
 
   describe "#entities" do
     before do
-      @resource_1 = double(RamlVisualizer::Model::Resource, :raw => { "absoluteUri" => "/base/users" })
-      @resource_2 = double(RamlVisualizer::Model::Resource, :raw => { "absoluteUri" => "/base/tokens" })
+      @resource_1 = double(RamlVisualizer::Model::Resource, :entity => "users")
+      @resource_2 = double(RamlVisualizer::Model::Resource, :entity => "tokens")
 
       subject.instance_variable_set(:@resources, [@resource_1, @resource_2])
-      subject.instance_variable_set(:@specification, { "baseUri" => "/base" })
     end
 
     it "creates entities" do

@@ -24,6 +24,14 @@ module RamlVisualizer
       def descendants
         children + children.map(&:descendants).flatten
       end
+
+      def entity
+        full_path = @raw["parentUrl"].to_s + @raw["relativeUri"].to_s
+
+        tokens = full_path.split("/")
+
+        tokens.count >= 4 ? tokens[3] : tokens[1]
+      end
     end
   end
 end

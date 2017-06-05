@@ -98,4 +98,28 @@ RSpec.describe RamlVisualizer::Model::Resource do
       end
     end
   end
+
+  describe "#entity" do
+    context "no entity" do
+      it "returns nil" do
+        expect(subject.entity).to be nil
+      end
+    end
+
+    context "first order entity" do
+      subject { described_class.new({ "relativeUri" => "/organizations" }) }
+
+      it "returns the first order entity" do
+        expect(subject.entity).to eql("organizations")
+      end
+    end
+
+    context "second order entity" do
+      subject { described_class.new({ "absoluteUrl" => "/organizations/{org_id}", "relativeUri" => "/teams" }) }
+
+      it "returns the first order entity" do
+        expect(subject.entity).to eql("teams")
+      end
+    end
+  end
 end

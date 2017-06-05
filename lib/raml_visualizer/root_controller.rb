@@ -13,18 +13,12 @@ module RamlVisualizer
 
     def resources
       @resources ||= specification["resources"].map do |raw_resource|
-        Model::Resource.new(raw_resource, specification["baseUri"]).with_descendants
+        Model::Resource.new(raw_resource).with_descendants
       end.flatten
     end
 
     def entities
-      base_uri = specification["baseUri"]
-
-      @entities ||= resources.group_by do |resource|
-        tokens = resource.raw["absoluteUri"].gsub(base_uri, "").split("/")
-
-        tokens.count >= 4 ? tokens[3] : tokens[1]
-      end
+      @entities ||= resources.group_by { |resource| resource.entity }
     end
 
     def generate_index_page
