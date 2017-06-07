@@ -7,7 +7,7 @@ RSpec.describe RamlVisualizer::PageBuilder do
   let(:destination_path) { "something/output" }
   let(:format) { "md" }
 
-  subject { described_class.new(template_path, destination_path, format) }
+  subject { described_class.new(template_path, destination_path, :format => format) }
 
   describe ".build" do
     before do
@@ -63,11 +63,44 @@ RSpec.describe RamlVisualizer::PageBuilder do
         subject.generate_page("users", @args)
       end
 
+      context "stylesheets are included in options" do
+        let(:options) { { :format => "html", :stylesheets_dir => "specs/fixtures" } }
+
+        subject { described_class.new(template_path, destination_path, options) }
+
+        before do
+          @stylesheets = double(RamlVisualizer::Stylesheets)
+          allow(@stylesheets).to receive(:copy).and_return(@stylesheets)
+          allow(RamlVisualizer::Stylesheets).to receive(:new).and_return(@stylesheets)
+        end
+
+        it "creates the stylesheets object" do
+          expect(RamlVisualizer::Stylesheets).to receive(:new).with(
+            options[:stylesheets_dir],
+            "#{destination_path}/stylesheets"
+          )
+
+          subject.generate_page("users", @args)
+        end
+
+        it "copies the stylesheets" do
+          expect(@stylesheets).to receive(:copy)
+
+          subject.generate_page("users", @args)
+        end
+
+        it "passes the stylesheets to the generator" do
+          expect(RamlVisualizer::HtmlGenerator).to receive(:new).with(destination_path, @stylesheets)
+
+          subject.generate_page("users", @args)
+        end
+      end
+
       context "html format" do
-        subject { described_class.new(template_path, destination_path, "html") }
+        subject { described_class.new(template_path, destination_path, :format => "html") }
 
         it "creates the generator" do
-          expect(RamlVisualizer::HtmlGenerator).to receive(:new)
+          expect(RamlVisualizer::HtmlGenerator).to receive(:new).with(destination_path, nil)
 
           subject.generate_page("users", @args)
         end
@@ -80,7 +113,7 @@ RSpec.describe RamlVisualizer::PageBuilder do
       end
 
       context "md format" do
-        subject { described_class.new(template_path, destination_path, "md") }
+        subject { described_class.new(template_path, destination_path, :format => "md") }
 
         before do
           @generator = double(RamlVisualizer::MdGenerator)
@@ -89,7 +122,7 @@ RSpec.describe RamlVisualizer::PageBuilder do
         end
 
         it "creates the generator" do
-          expect(RamlVisualizer::MdGenerator).to receive(:new)
+          expect(RamlVisualizer::MdGenerator).to receive(:new).with(destination_path)
 
           subject.generate_page("users", @args)
         end
@@ -102,7 +135,7 @@ RSpec.describe RamlVisualizer::PageBuilder do
       end
 
       context "unknown format" do
-        subject { described_class.new(template_path, destination_path, "") }
+        subject { described_class.new(template_path, destination_path) }
 
         it "raises Format Not Supported" do
           expect { subject.generate_page("users", @args) }.to raise_error("Format Not Supported")
