@@ -4,9 +4,9 @@ RSpec.describe RamlVisualizer::RootController do
   let(:source_path) { "source" }
   let(:destination_path) { "destination" }
   let(:template_path) { "templates" }
-  let(:format) { "html" }
+  let(:options) { { :format => "html" } }
 
-  subject { described_class.new(source_path, destination_path, template_path, format) }
+  subject { described_class.new(source_path, destination_path, template_path, options) }
 
   before do
     @specification_json = double(RamlVisualizer::SpecificationJson)
@@ -51,46 +51,51 @@ RSpec.describe RamlVisualizer::RootController do
     end
   end
 
-  context "page generation" do
+  context "page building" do
+    let(:site_builder) { double(RamlVisualizer::SiteBuilder) }
+    let(:page_builder) { double(RamlVisualizer::PageBuilder) }
+
     before do
-      @builder = double(RamlVisualizer::PageBuilder)
-      allow(@builder).to receive(:generate_page)
-      allow(RamlVisualizer::PageBuilder).to receive(:build).and_return(@builder)
-
-      @resource = double(RamlVisualizer::Model::Resource, :entity => "users")
-      subject.instance_variable_set(:@entities, { "users" => [@resource] })
+      allow(RamlVisualizer::SiteBuilder).to receive(:new).and_return(site_builder)
+      allow(site_builder).to receive(:build_page_builder).and_return(page_builder)
+      allow(page_builder).to receive(:generate_page)
     end
 
-    describe "#generate_index_page" do
-      it "builds the page builder" do
-        expected_template_path = "#{template_path}/index_template.md.erb"
+    describe "#site_builder" do
+      it "builds the site builder" do
+        expect(RamlVisualizer::SiteBuilder).to receive(:new).with(template_path, destination_path, options)
 
-        expect(RamlVisualizer::PageBuilder).to receive(:build).with(expected_template_path, destination_path, format)
-
-        subject.generate_index_page
-      end
-
-      it "generates the index page" do
-        expect(@builder).to receive(:generate_page).with("index", { :entities => ["users"] })
-
-        subject.generate_index_page
+        subject.site_builder
       end
     end
 
-    describe "#generate_entity_pages" do
-      it "builds the page builder" do
-        expected_template_path = "#{template_path}/entities/entity_template.md.erb"
-        expected_destination_path = "#{destination_path}/entities"
+    describe "#page_buidler" do
+      it "builds a page builder" do
+        expect(site_builder).to receive(:build_page_builder).with(template_path, destination_path)
 
-        expect(RamlVisualizer::PageBuilder).to receive(:build).with(expected_template_path, expected_destination_path, format)
+        subject.page_builder(template_path, destination_path)
+      end
+    end
 
-        subject.generate_entity_pages
+    context "page generation" do
+      let(:resource) { double(RamlVisualizer::Model::Resource, :entity => "users") }
+
+      before { subject.instance_variable_set(:@entities, { "users" => [resource] }) }
+
+      describe "#generate_index_page" do
+        it "generates the index page" do
+          expect(page_builder).to receive(:generate_page).with("index", :entities => ["users"])
+
+          subject.generate_index_page
+        end
       end
 
-      it "generates the entity pages" do
-        expect(@builder).to receive(:generate_page).with("users", { :entity => "users", :resources => [@resource] })
+      describe "#generate_entity_pages" do
+        it "generates the index page" do
+          expect(page_builder).to receive(:generate_page).with("users", :entity => "users", :resources => [resource])
 
-        subject.generate_entity_pages
+          subject.generate_entity_pages
+        end
       end
     end
   end

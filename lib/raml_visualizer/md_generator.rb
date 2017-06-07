@@ -1,13 +1,9 @@
 module RamlVisualizer
   class MdGenerator < Generator
-    def initialize(destination_dir)
-      @destination_dir = destination_dir
-    end
+    def generate(path, content)
+      extended_path = "#{path}.md"
 
-    def generate(name, content)
-      path = "#{@destination_dir}/#{name}.md"
-
-      save(path, content)
+      save(extended_path, content)
     end
   end
 end

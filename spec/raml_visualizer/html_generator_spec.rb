@@ -1,11 +1,8 @@
 require "spec_helper"
 
 RSpec.describe RamlVisualizer::HtmlGenerator do
-  let(:destination_dir) { "dir" }
-  let(:name) { "users" }
+  let(:destination_path) { "dir/users" }
   let(:content) { "abc" }
-
-  subject { described_class.new(destination_dir) }
 
   before do
     allow(Redcarpet::Render::HTML).to receive(:new)
@@ -25,24 +22,22 @@ RSpec.describe RamlVisualizer::HtmlGenerator do
     end
 
     it "opens a file for writing" do
-      destination_path = "#{destination_dir}/#{name}.html"
+      expect(File).to receive(:open).with(destination_path + ".html", "w")
 
-      expect(File).to receive(:open).with(destination_path, "w")
-
-      subject.generate(name, content)
+      subject.generate(destination_path, content)
     end
 
     it "saves to file" do
       expect(@file).to receive(:write).with(@processed_content)
 
-      subject.generate(name, content)
+      subject.generate(destination_path, content)
     end
 
     context "stylesheets are included" do
       let(:stylesheets) { double(RamlVisualizer::Stylesheets) }
       let(:links) { ["<link a>", "<link b>"] }
 
-      subject { described_class.new(destination_dir, stylesheets) }
+      subject { described_class.new(stylesheets) }
 
       before { allow(stylesheets).to receive(:links).and_return(links) }
 
@@ -51,7 +46,7 @@ RSpec.describe RamlVisualizer::HtmlGenerator do
 
         expect(@file).to receive(:write).with(expected_content)
 
-        subject.generate(name, content)
+        subject.generate(destination_path, content)
       end
     end
   end

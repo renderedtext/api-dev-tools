@@ -7,6 +7,20 @@ module RamlVisualizer
       @options = options
     end
 
+    def generate_index_page
+      builder = site_builder.build_page_builder("index_template.md.erb", "")
+
+      builder.generate_page("index", :entities => entities.keys)
+    end
+
+    def generate_entity_pages
+      builder = page_builder("entities/entity_template.md.erb", "entities")
+
+      entities.map do |key, resources|
+        builder.generate_page(key, :entity => key, :resources => resources)
+      end
+    end
+
     def specification
       @specification ||= SpecificationJson.content(@source)
     end
@@ -21,23 +35,12 @@ module RamlVisualizer
       @entities ||= resources.group_by { |resource| resource.entity }
     end
 
-    def generate_index_page
-      template_path = "#{@templates}/index_template.md.erb"
-
-      builder = PageBuilder.build(template_path, @destination, @options)
-
-      builder.generate_page("index", :entities => entities.keys)
+    def page_builder(template_path, destination_dir)
+      site_builder.build_page_builder(template_path, destination_dir)
     end
 
-    def generate_entity_pages
-      template_path = "#{@templates}/entities/entity_template.md.erb"
-      destination_dir = "#{@destination}/entities"
-
-      builder = PageBuilder.build(template_path, destination_dir, @options)
-
-      entities.map do |key, resources|
-        builder.generate_page(key, :entity => key, :resources => resources)
-      end
+    def site_builder
+      @site_builder ||= SiteBuilder.new(@templates, @destination, @options)
     end
   end
 end
