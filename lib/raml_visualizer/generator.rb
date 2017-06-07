@@ -1,6 +1,6 @@
 module RamlVisualizer
   class Generator
-    def generate(name, content)
+    def generate(path, content)
       raise "Not Implemented"
     end
 

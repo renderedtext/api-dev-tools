@@ -7,19 +7,18 @@ module RamlVisualizer
       :fenced_code_blocks => true
     }
 
-    def initialize(destination_dir, stylesheets = nil)
-      @destination_dir = destination_dir
+    def initialize(stylesheets = nil)
       @stylesheets = stylesheets
 
       html_render = Redcarpet::Render::HTML.new
       @markdown = Redcarpet::Markdown.new(html_render, RENDER_OPTIONS)
     end
 
-    def generate(name, raw_content)
-      path = "#{@destination_dir}/#{name}.html"
+    def generate(path, raw_content)
+      extended_path = "#{path}.html"
       content = links + @markdown.render(raw_content)
 
-      save(path, content)
+      save(extended_path, content)
     end
 
     private
