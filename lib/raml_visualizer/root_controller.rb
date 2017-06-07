@@ -21,26 +21,18 @@ module RamlVisualizer
       end
     end
 
-    def specification
-      @specification ||= SpecificationJson.content(@source)
-    end
-
-    def resources
-      @resources ||= specification["resources"].map do |raw_resource|
-        Model::Resource.new(raw_resource).with_descendants
-      end.flatten
-    end
+    private
 
     def entities
-      @entities ||= resources.group_by { |resource| resource.entity }
-    end
-
-    def page_builder(template_path, destination_dir)
-      site_builder.build_page_builder(template_path, destination_dir)
+      @entities ||= Model::Specification.new(@source).entities
     end
 
     def site_builder
       @site_builder ||= SiteBuilder.new(@templates, @destination, @options)
+    end
+
+    def page_builder(template_path, destination_dir)
+      site_builder.build_page_builder(template_path, destination_dir)
     end
   end
 end
