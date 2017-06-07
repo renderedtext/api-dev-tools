@@ -3,11 +3,17 @@
 require "raml_visualizer"
 
 raise "Arguments missing"  if ARGV.count < 4
-raise "Too many arguments" if ARGV.count > 4
+raise "Too many arguments" if ARGV.count > 5
 
-source_path, destination_path, template_path, format = ARGV
+source_path, destination_path, template_path, format, stylesheets_path = ARGV
 
-controller = RamlVisualizer::RootController.new(source_path, destination_path, template_path, format)
+controller = RamlVisualizer::RootController.new(
+  source_path,
+  destination_path,
+  template_path,
+  :format => format,
+  :stylesheets_dir => stylesheets_path
+)
 
 controller.generate_index_page
 controller.generate_entity_pages

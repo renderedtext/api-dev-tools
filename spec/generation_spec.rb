@@ -9,7 +9,7 @@ RSpec.describe "Full integration" do
     templates_dir = "spec/fixtures/generation"
     format = "md"
 
-    @controller = RamlVisualizer::RootController.new(input_file, @output_dir, templates_dir, format)
+    @controller = RamlVisualizer::RootController.new(input_file, @output_dir, templates_dir, :format => format)
   end
 
   it "generates the index page" do

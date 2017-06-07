@@ -37,5 +37,22 @@ RSpec.describe RamlVisualizer::HtmlGenerator do
 
       subject.generate(name, content)
     end
+
+    context "stylesheets are included" do
+      let(:stylesheets) { double(RamlVisualizer::Stylesheets) }
+      let(:links) { ["<link a>", "<link b>"] }
+
+      subject { described_class.new(destination_dir, stylesheets) }
+
+      before { allow(stylesheets).to receive(:links).and_return(links) }
+
+      it "adds the links block to content" do
+        expected_content = "#{links.join("\n")}\n\n#{@processed_content}"
+
+        expect(@file).to receive(:write).with(expected_content)
+
+        subject.generate(name, content)
+      end
+    end
   end
 end
