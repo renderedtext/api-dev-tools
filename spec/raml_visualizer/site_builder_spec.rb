@@ -58,7 +58,7 @@ RSpec.describe RamlVisualizer::SiteBuilder do
         end
 
         it "creates the stylesheets object" do
-          expect(RamlVisualizer::Stylesheets).to receive(:new).with(options[:stylesheets_dir], "#{destination_root}/stylesheets")
+          expect(RamlVisualizer::Stylesheets).to receive(:new).with(options[:stylesheets_dir], destination_root)
 
           subject.build_page_builder("t1", "d1")
         end
