@@ -9,7 +9,7 @@ module RamlVisualizer
 
     def links
       @links ||= css_files.map do |path|
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets#{path}\">"
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheets#{path}\">"
       end
     end
 

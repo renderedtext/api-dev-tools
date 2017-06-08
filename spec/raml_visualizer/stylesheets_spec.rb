@@ -18,9 +18,9 @@ RSpec.describe RamlVisualizer::Stylesheets do
   describe "#links" do
     it "returns HTML links" do
       expect(subject.links.sort).to eql([
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets/a.css\">",
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets/b.css\">",
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets/subdir/c.css\">"
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheets/a.css\">",
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheets/b.css\">",
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheets/subdir/c.css\">"
       ])
     end
   end
