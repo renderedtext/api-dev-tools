@@ -7,8 +7,10 @@ RSpec.describe RamlVisualizer::Stylesheets do
     @output_dir = ".spec_output"
 
     FileUtils.mkdir_p(@input_dir)
+    FileUtils.mkdir_p("#{@input_dir}/subdir")
     FileUtils.touch("#{@input_dir}/a.css")
     FileUtils.touch("#{@input_dir}/b.css")
+    FileUtils.touch("#{@input_dir}/subdir/c.css")
   end
 
   subject { described_class.new(@input_dir, @output_dir) }
@@ -16,8 +18,9 @@ RSpec.describe RamlVisualizer::Stylesheets do
   describe "#links" do
     it "returns HTML links" do
       expect(subject.links.sort).to eql([
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/#{@output_dir}/a.css\">",
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/#{@output_dir}/b.css\">"
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets/a.css\">",
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets/b.css\">",
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets/subdir/c.css\">"
       ])
     end
   end
@@ -29,8 +32,9 @@ RSpec.describe RamlVisualizer::Stylesheets do
       subject.copy
 
       expect(Dir["#{@output_dir}/**/*.css"].sort).to eql([
-        "#{@output_dir}/a.css",
-        "#{@output_dir}/b.css"
+        "#{@output_dir}/stylesheets/a.css",
+        "#{@output_dir}/stylesheets/b.css",
+        "#{@output_dir}/stylesheets/subdir/c.css"
       ])
     end
 

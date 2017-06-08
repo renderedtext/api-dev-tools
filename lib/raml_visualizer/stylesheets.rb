@@ -8,29 +8,22 @@ module RamlVisualizer
     end
 
     def links
-      @links ||= destination_paths.map do |path|
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/#{path}\">"
+      @links ||= css_files.map do |path|
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets#{path}\">"
       end
+    end
+
+    def css_files
+      Dir["#{@source_dir}/**/*.css"].map { |path| path.gsub(@source_dir, "") }
     end
 
     def copy
       FileUtils.mkdir_p(@destination_dir)
 
-      source_paths.each { |path| FileUtils.cp(path, @destination_dir) }
+      FileUtils.cp_r(@source_dir, "#{@destination_dir}/stylesheets")
 
       self
     end
 
-    private
-
-    def source_paths
-      @source_paths ||= Dir["#{@source_dir}/**/*.css"]
-    end
-
-    def destination_paths
-      @destination_paths ||= source_paths.map do |path|
-        "#{@destination_dir}/#{path.split("/").last}"
-      end
-    end
   end
 end

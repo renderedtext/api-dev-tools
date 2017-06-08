@@ -29,9 +29,7 @@ module RamlVisualizer
 
       return @stylesheets if @stylesheets
 
-      destination_dir = "#{@destination_root}/stylesheets"
-
-      @stylesheets = Stylesheets.new(source_dir, destination_dir).copy
+      @stylesheets = Stylesheets.new(source_dir, @destination_root).copy
     end
   end
 end
