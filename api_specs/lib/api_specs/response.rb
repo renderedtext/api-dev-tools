@@ -12,8 +12,20 @@ class ApiSpecs
       code >= 200 && code < 300
     end
 
-    def fields
+    def empty?
+      @raml_response["body"].nil?
+    end
 
+    def body
+      return nil if empty?
+
+      ApiSpecs::Body.new(@raml_response["body"].first)
+    end
+
+    def example
+      return nil if empty?
+
+      body.example
     end
   end
 end

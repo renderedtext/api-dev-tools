@@ -6,6 +6,7 @@ class ApiSpecs
   require_relative "api_specs/route"
   require_relative "api_specs/resource"
   require_relative "api_specs/response"
+  require_relative "api_specs/body"
 
   def self.load(path)
     new(JSON.parse(File.read(path)))

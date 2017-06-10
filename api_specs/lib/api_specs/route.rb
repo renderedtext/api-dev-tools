@@ -25,6 +25,12 @@ class ApiSpecs
       name.split("_").map(&:capitalize).join(" ")
     end
 
+    def request
+      return nil unless @raml_method["body"]
+
+      @request ||= Body.new(@raml_method["body"].first)
+    end
+
     def responses
       @resources ||= @raml_method["responses"].map { |r| Response.new(r) }
     end
