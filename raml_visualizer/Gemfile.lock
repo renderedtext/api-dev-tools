@@ -7,7 +7,7 @@ GIT
 PATH
   remote: .
   specs:
-    raml_visualizer (0.19.0)
+    raml_visualizer (0.19.1)
       raml_parser
       redcarpet
 
