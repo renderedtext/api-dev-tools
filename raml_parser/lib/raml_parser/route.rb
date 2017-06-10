@@ -5,6 +5,10 @@ class RamlParser
       @raml_method = raml_method
     end
 
+    def description
+      @raml_method["description"]
+    end
+
     def path
       "#{@raml_resource["parentUrl"]}#{@raml_resource["relativeUri"]}"
     end
@@ -20,9 +24,7 @@ class RamlParser
     def name
       tokens = path.split("/")
 
-      name = tokens.count >= 4 ? tokens[3] : tokens[1]
-
-      name.split("_").map(&:capitalize).join(" ")
+      tokens.count >= 4 ? tokens[3] : tokens[1]
     end
 
     def request

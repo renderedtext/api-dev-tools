@@ -9,6 +9,13 @@ class RamlParser
       @routes = routes
     end
 
+    def display_name
+      name
+        .split("_")
+        .map(&:capitalize)
+        .join(" ")
+    end
+
     def index
       routes.select(&:index?)
     end

@@ -8,10 +8,10 @@ RSpec.describe RamlParser do
   end
 
   let(:specs) { RamlParser.load("spec/specs.json") }
-  let(:shared_configs) { specs.find_resource_by_name("Shared Configs") }
+  let(:shared_configs) { specs.find_resource_by_name("shared_configs") }
 
   it "can list resource names" do
-    expect(specs.resources.map(&:name)).to match_array [
+    expect(specs.resources.map(&:display_name)).to match_array [
       "Orgs",
       "Config Files",
       "Env Vars",
@@ -19,6 +19,10 @@ RSpec.describe RamlParser do
       "Shared Configs",
       "Teams"
     ]
+  end
+
+  it "can display route descriptions" do
+    expect(shared_configs.routes.map(&:description)).to include("Add a shared configuration to a team")
   end
 
   it "can list index routes" do
