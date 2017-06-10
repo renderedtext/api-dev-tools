@@ -1,4 +1,4 @@
-class ApiSpecs
+class RamlParser
   class Body
 
     def initialize(raw)

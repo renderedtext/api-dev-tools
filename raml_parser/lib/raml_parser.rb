@@ -1,19 +1,19 @@
 require "json"
 
-class ApiSpecs
-  require_relative "api_specs/version"
-  require_relative "api_specs/raml_parser"
-  require_relative "api_specs/route"
-  require_relative "api_specs/resource"
-  require_relative "api_specs/response"
-  require_relative "api_specs/body"
+class RamlParser
+  require_relative "raml_parser/version"
+  require_relative "raml_parser/parser"
+  require_relative "raml_parser/route"
+  require_relative "raml_parser/resource"
+  require_relative "raml_parser/response"
+  require_relative "raml_parser/body"
 
   def self.load(path)
     new(JSON.parse(File.read(path)))
   end
 
   def initialize(raml_specs)
-    @raml_specs = ApiSpecs::RamlParser.new(raml_specs)
+    @raml_specs = RamlParser::Parser.new(raml_specs)
   end
 
   def resources

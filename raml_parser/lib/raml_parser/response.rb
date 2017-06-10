@@ -1,4 +1,4 @@
-class ApiSpecs
+class RamlParser
   class Response
     def initialize(raml_response)
       @raml_response = raml_response
@@ -19,7 +19,7 @@ class ApiSpecs
     def body
       return nil if empty?
 
-      ApiSpecs::Body.new(@raml_response["body"].first)
+      RamlParser::Body.new(@raml_response["body"].first)
     end
 
     def example

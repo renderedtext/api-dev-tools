@@ -1,13 +1,13 @@
 require "spec_helper"
 require "byebug"
 
-RSpec.describe ApiSpecs do
+RSpec.describe RamlParser do
 
   it "has a version number" do
-    expect(ApiSpecs::VERSION).not_to be nil
+    expect(RamlParser::VERSION).not_to be nil
   end
 
-  let(:specs) { ApiSpecs.load("spec/specs.json") }
+  let(:specs) { RamlParser.load("spec/specs.json") }
   let(:shared_configs) { specs.find_resource_by_name("Shared Configs") }
 
   it "can list resource names" do

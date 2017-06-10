@@ -1,4 +1,4 @@
-class ApiSpecs
+class RamlParser
   class Route
     def initialize(raml_resource, raml_method)
       @raml_resource = raml_resource

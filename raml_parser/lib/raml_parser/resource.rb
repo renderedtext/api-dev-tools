@@ -1,4 +1,4 @@
-class ApiSpecs
+class RamlParser
   class Resource
 
     attr_reader :name

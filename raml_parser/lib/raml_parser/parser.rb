@@ -1,5 +1,5 @@
-class ApiSpecs
-  class RamlParser
+class RamlParser
+  class Parser
     attr_reader :specs
 
     def initialize(specs)
@@ -9,7 +9,7 @@ class ApiSpecs
     def routes
       @reoute ||= find_resources(specs["resources"]).map do |raml_resource|
         (raml_resource["methods"] || []).map do |method|
-          ApiSpecs::Route.new(raml_resource, method)
+          RamlParser::Route.new(raml_resource, method)
         end
       end.flatten
     end
