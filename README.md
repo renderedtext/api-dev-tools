@@ -2,5 +2,6 @@
 
 This is a collection of tools we use to develop APIv2.
 
-- [RAML visualizer](raml_visualizer/README.md) for generating markdown documents
-    from RAML specifications.
+- [RAML parser](raml_parser/README.md) for parsing RAML json object files
+- [RAML visualizer](raml_visualizer/README.md) for generating markdown documents from RAML specifications.
+- [RAML Rspec](raml_rspec/README.md) for testing if the implementation matches the specification
