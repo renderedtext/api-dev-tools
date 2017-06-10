@@ -13,13 +13,11 @@ module RamlVisualizer
       builder.generate_page("index", :specification => specification)
     end
 
-    def generate_entity_pages
+    def generate_resource_pages
       builder = page_builder("resource.md.erb", "")
 
       specification.resources.each do |resource|
-        filename = resource.name.split("_").map(&:downcase).join("_")
-
-        builder.generate_page(filename, :resource => resource)
+        builder.generate_page(resource.name, :resource => resource)
       end
     end
 

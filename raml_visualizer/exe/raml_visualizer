@@ -16,4 +16,4 @@ controller = RamlVisualizer::RootController.new(
 )
 
 controller.generate_index_page
-controller.generate_entity_pages
+controller.generate_resource_pages
