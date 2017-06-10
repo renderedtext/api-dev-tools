@@ -1,5 +1,3 @@
-require "redcarpet"
-
 module RamlVisualizer
   class HtmlGenerator < Generator
     RENDER_OPTIONS = {

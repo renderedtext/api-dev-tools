@@ -1,6 +1,3 @@
-require "fileutils"
-require "erb"
-
 module RamlVisualizer
   class PageBuilder
     def self.build(template_path, destination_dir, generator)
@@ -25,9 +22,7 @@ module RamlVisualizer
     private
 
     def template
-      @template ||= File.open(@template_path, "rb") do |file|
-        ERB.new(file.read)
-      end
+      @template ||= ERB.new(File.read(@template_path))
     end
   end
 end

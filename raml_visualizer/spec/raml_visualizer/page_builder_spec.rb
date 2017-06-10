@@ -38,9 +38,10 @@ RSpec.describe RamlVisualizer::PageBuilder do
       allow(RamlVisualizer::Page).to receive(:new).and_return(@page)
 
       @template = double(ERB)
-      allow(File).to receive(:open).and_return(@template)
+      allow(File).to receive(:read).and_return(@content)
+      allow(ERB).to receive(:new).with(@content).and_return(@template)
 
-      @args = { :entity => "users" }
+      @args = { :resource => "users" }
     end
 
     it "generates a page" do

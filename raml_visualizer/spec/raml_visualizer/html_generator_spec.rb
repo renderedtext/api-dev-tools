@@ -13,22 +13,14 @@ RSpec.describe RamlVisualizer::HtmlGenerator do
 
   describe "#generate" do
     before do
-      @file = double(File)
-      allow(@file).to receive(:write)
-      allow(File).to receive(:open).and_yield(@file)
+      allow(File).to receive(:write)
 
       @processed_content = "cba"
       allow(@markdown).to receive(:render).and_return(@processed_content)
     end
 
-    it "opens a file for writing" do
-      expect(File).to receive(:open).with(destination_path + ".html", "w")
-
-      subject.generate(destination_path, content)
-    end
-
     it "saves to file" do
-      expect(@file).to receive(:write).with(@processed_content)
+      expect(File).to receive(:write).with(destination_path + ".html", @processed_content)
 
       subject.generate(destination_path, content)
     end
@@ -44,7 +36,7 @@ RSpec.describe RamlVisualizer::HtmlGenerator do
       it "adds the links block to content" do
         expected_content = "#{links.join("\n")}\n\n#{@processed_content}"
 
-        expect(@file).to receive(:write).with(expected_content)
+        expect(File).to receive(:write).with(destination_path + ".html", expected_content)
 
         subject.generate(destination_path, content)
       end

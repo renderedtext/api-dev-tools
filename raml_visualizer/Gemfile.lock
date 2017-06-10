@@ -1,7 +1,14 @@
+GIT
+  remote: git://github.com/renderedtext/api-dev-tools.git
+  revision: 7cdf16c3ffbe1956c010333a5c5c5da64838be67
+  specs:
+    raml_parser (0.1.0)
+
 PATH
   remote: .
   specs:
     raml_visualizer (0.18.1)
+      raml_parser
       redcarpet
 
 GEM
@@ -34,6 +41,7 @@ DEPENDENCIES
   bundler (~> 1.14)
   byebug
   rake (~> 10.0)
+  raml_parser!
   raml_visualizer!
   rspec (~> 3.0)
 

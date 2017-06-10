@@ -7,7 +7,7 @@ module RamlVisualizer
     protected
 
     def save(path, content)
-      File.open(path, "w") { |file| file.write(content) }
+      File.write(path, content)
     end
   end
 end

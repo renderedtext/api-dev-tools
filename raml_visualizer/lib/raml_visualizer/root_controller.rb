@@ -8,23 +8,25 @@ module RamlVisualizer
     end
 
     def generate_index_page
-      builder = site_builder.build_page_builder("index_template.md.erb", "")
+      builder = site_builder.build_page_builder("index.md.erb", "")
 
-      builder.generate_page("index", :entities => entities.keys)
+      builder.generate_page("index", :specification => specification)
     end
 
     def generate_entity_pages
-      builder = page_builder("entities/entity_template.md.erb", "entities")
+      builder = page_builder("resource.md.erb", "")
 
-      entities.map do |key, resources|
-        builder.generate_page(key, :entity => key, :resources => resources)
+      specification.resources.each do |resource|
+        filename = resource.name.split("_").map(&:downcase).join("_")
+
+        builder.generate_page(filename, :resource => resource)
       end
     end
 
     private
 
-    def entities
-      @entities ||= Model::Specification.new(@source).entities
+    def specification
+      @specification ||= RamlParser.load(@source)
     end
 
     def site_builder
