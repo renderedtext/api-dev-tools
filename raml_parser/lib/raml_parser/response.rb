@@ -27,5 +27,11 @@ class RamlParser
 
       body.example
     end
+
+    def structure
+      return nil if empty?
+
+      body.structure
+    end
   end
 end

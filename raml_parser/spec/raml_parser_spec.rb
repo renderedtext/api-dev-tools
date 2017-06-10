@@ -107,4 +107,19 @@ RSpec.describe RamlParser do
     })
   end
 
+  it "can display the structure of the response" do
+    index_shared_config = specs.find_route(:get, "/projects/{project_id}/shared_configs")
+
+    expect(index_shared_config.succesfull_response.structure).to eq([
+      {
+        "id" => "string",
+        "description" => "string",
+        "url" => "string",
+        "name" => "string",
+        "updated_at" => "datetime",
+        "created_at" => "datetime"
+      }
+    ])
+  end
+
 end

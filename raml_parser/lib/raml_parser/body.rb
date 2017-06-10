@@ -21,6 +21,13 @@ class RamlParser
       @raw["properties"].map { |field| self.class.new(field) }
     end
 
+    def structure
+      case type
+      when "array"  then [ self.class.new(@raw["items"]).structure]
+      when "object" then properties.map { |e| [e.name, e.type] }.to_h
+      end
+    end
+
     def example
       case type
       when "array"    then [ self.class.new(@raw["items"]).example ]
