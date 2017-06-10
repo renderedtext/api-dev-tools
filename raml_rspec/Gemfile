@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+# Specify your gem's dependencies in raml_rspec.gemspec
+gemspec
+
+github "renderedtext/api-dev-tools" do
+  gem "raml_parser"
+end
