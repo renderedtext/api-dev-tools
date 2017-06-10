@@ -17,11 +17,23 @@ module RamlVisualizer
       builder = page_builder("resource.md.erb", "")
 
       specification.resources.each do |resource|
-        builder.generate_page(resource.name, :resource => resource)
+        builder.generate_page(resource.name, :resource => resource, :routes => sorted_routes(resource))
       end
     end
 
     private
+
+    def sorted_routes(resource)
+      [
+        resource.index,
+        resource.show,
+        resource.create,
+        resource.update,
+        resource.delete,
+        resource.connect,
+        resource.dissconnect
+      ].flatten
+    end
 
     def specification
       @specification ||= RamlParser.load(@source)

@@ -21,16 +21,16 @@ RSpec.describe "Full integration" do
 
     content = File.read("#{@output_dir}/index.md")
 
-    expect(content).to include("Orgs")
+    expect(content).to include("orgs")
   end
 
   it "generates the entity pages" do
-    @controller.generate_entity_pages
+    @controller.generate_resource_pages
 
     content = File.read("#{@output_dir}/teams.md")
 
-    expect(content).to include("Teams")
-    expect(content).to include("/teams/{team_id}")
+    expect(content).to include("teams")
+    expect(content).to include("/teams/{id}")
   end
 
   after(:all) do

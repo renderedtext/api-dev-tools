@@ -11,7 +11,16 @@ RSpec.describe RamlVisualizer::RootController do
   let(:site_builder) { double(RamlVisualizer::SiteBuilder) }
   let(:page_builder) { double(RamlVisualizer::PageBuilder) }
 
-  let(:resource) { double(RamlParser::Resource, :name => "orgs") }
+  let(:resource) { double(RamlParser::Resource,
+                          :name => "orgs",
+                          :index => [],
+                          :show => [],
+                          :create => [],
+                          :update => [],
+                          :delete=> [],
+                          :connect=> [],
+                          :dissconnect=> []) }
+
   let(:resources) { [resource] }
   let(:specification) { double(RamlParser, :resources => resources) }
 
@@ -58,7 +67,7 @@ RSpec.describe RamlVisualizer::RootController do
     end
 
     it "generates the resource pages" do
-      expect(page_builder).to receive(:generate_page).with("orgs", :resource => resource)
+      expect(page_builder).to receive(:generate_page).with("orgs", :resource => resource, :routes => [])
 
       subject.generate_resource_pages
     end
