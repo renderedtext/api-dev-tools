@@ -99,16 +99,18 @@ RSpec.describe RamlParser do
   end
 
   it "can create example response for index" do
-    index_shared_config = specs.find_route(:get, "/projects/{project_id}/shared_configs")
+    index = specs.find_route(:get, "/projects/{project_id}/config_files")
 
-    expect(index_shared_config.responses.map(&:code)).to match_array([ 200, 404 ])
+    expect(index.responses.map(&:code)).to match_array([ 200, 404 ])
 
-    expect(index_shared_config.succesfull_response.example).to eq([
+    expect(index.succesfull_response.example).to eq([
       {
         "id" => "86e78b7e-2f9c-45a7-9939-ec2c9f6f64b5",
-        "description" => "AWS tokens for deployment",
-        "url" => "https://api.semaphoreci.com/v2/shared_configs/86e78b7e-2f9c-45a7-9939-ec2c9f6f64b5",
-        "name" => "AWS Tokens",
+        "path"=> ".credentials",
+        "url" => "https://api.semaphoreci.com/v2/config_files/86e78b7e-2f9c-45a7-9939-ec2c9f6f64b5",
+        "content" => "password: ec2c9f6f64b5",
+        "encrypted" => true,
+        "shared" => true,
         "updated_at" => "2017-06-10 16:59:51 +0200",
         "created_at" => "2017-06-10 16:59:51 +0200"
       }
