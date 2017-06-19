@@ -2,18 +2,13 @@ class RamlParser
   class Resource
 
     attr_reader :name
+    attr_reader :display_name
     attr_reader :routes
 
-    def initialize(name, routes)
+    def initialize(name, display_name, routes)
       @name = name
+      @display_name = display_name
       @routes = routes
-    end
-
-    def display_name
-      name
-        .split("_")
-        .map(&:capitalize)
-        .join(" ")
     end
 
     def index

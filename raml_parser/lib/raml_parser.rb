@@ -17,9 +17,7 @@ class RamlParser
   end
 
   def resources
-    @resources ||= @raml_specs.routes.group_by(&:name).map do |name, routes|
-      Resource.new(name, routes)
-    end
+    @resources ||= @raml_specs.top_level_resources
   end
 
   def find_resource_by_name(resource_name)
