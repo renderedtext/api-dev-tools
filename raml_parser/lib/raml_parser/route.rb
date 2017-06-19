@@ -1,16 +1,22 @@
 class RamlParser
   class Route
-    def initialize(raml_resource, raml_method)
+
+    attr_reader :resource_name
+    attr_reader :path
+
+    def initialize(path, resource_name, raml_resource, raml_method)
+      @path = path
+      @resource_name = resource_name
       @raml_resource = raml_resource
       @raml_method = raml_method
     end
 
-    def description
-      @raml_method["description"]
+    def display_name
+      @raml_method["displayName"]
     end
 
-    def path
-      "#{@raml_resource["parentUrl"]}#{@raml_resource["relativeUri"]}"
+    def description
+      @raml_method["description"]
     end
 
     def verb
@@ -19,12 +25,6 @@ class RamlParser
 
     def verb_and_path
       "#{verb} #{path}"
-    end
-
-    def name
-      tokens = path.split("/")
-
-      tokens.count >= 4 ? tokens[3] : tokens[1]
     end
 
     def request
