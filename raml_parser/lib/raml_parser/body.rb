@@ -37,7 +37,7 @@ class RamlParser
         if @raw["example"]
           @raw["example"]
         elsif @raw["examples"] && @raw["examples"].first
-          @raw["examples"].first["value"]
+          @raw["examples"].first["structuredValue"]
         end
       end
     end
