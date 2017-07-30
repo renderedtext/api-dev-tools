@@ -1,0 +1,130 @@
+api "Users", :stability => :prototype do
+
+  get "/orgs/:org_username/users" do
+    description "List users for an organization"
+
+    response :code => 200, :schema => "users.schema"
+  end
+
+  get "/teams/:team_id/users" do
+    description "List users for a team"
+
+    response :code => 200, :schema => "users.schema"
+  end
+
+  get "/project/:project_id/users" do
+    description "List users for a project"
+
+    response :code => 200, :schema => "users.schema"
+  end
+
+end
+
+
+api "Organizations", :stability => :prototype do
+
+  get "/orgs" do
+    description "List organizations"
+
+    response :code => 200, :schema => "orgs.schema"
+  end
+
+  get "/orgs/:username" do
+    description "Get an organization"
+
+    response :code => 200, :schema => "org.schema"
+  end
+
+end
+
+
+api "Teams", :stability => :prototype do
+
+  get "/orgs/:org_username/teams" do
+    description "List teams for an organization"
+
+    response :code => 200, :schema => "teams.schema"
+  end
+
+  get "/projects/:project_id/teams" do
+    description "List teams for a project"
+
+    response :code => 200, :schema => "team.schema"
+  end
+
+end
+
+
+api "Shared Configurations", :stability => :prototype do
+
+  get "/orgs/:org_username/shared_configs" do
+    description "List shared configs for an organization"
+
+    response :code => 200, :schema => "shared_configs.schema"
+  end
+
+  get "/team/:team_id/shared_configs" do
+    description "List shared configurations for a team"
+
+    response :code => 200, :schema => "shared_configs.schema"
+  end
+
+  get "/project/:project_id/shared_configs" do
+    description "List shared configs for a project"
+
+    response :code => 200, :schema => "shared_configs.schema"
+  end
+
+  get "/shared_configs/:id" do
+    description "Get a shared configuration"
+
+    response :code => 200, :schema => "shared_config.schema"
+  end
+
+  post "/orgs/:org_username/shared_configs", :schema => "shared_config_post.schema" do
+    description "Create a shared configuration in an organization"
+
+    response :code => 200, :schema => "shared_config.schema"
+  end
+
+  patch "/shared_configs/:id", :schema => "shared_config_patch.schema" do
+    description "Update a shared configuration"
+
+    response :code => 200, :schema => "shared_config.schema"
+  end
+
+  delete "/shared_configs/:id" do
+    description "Delete a shared configuration"
+
+    response :code => 204
+  end
+
+end
+
+
+api "Configuration Files", :stability => :prototype do
+
+  get "/projects/:project_id/config_files" do
+    description "List configuration files for a project"
+
+    response :code => 200, :schema => "config_files.schema"
+  end
+
+  get "/shared_configs/:shared_config_id/config_files" do
+    description "List configuration files for a shared configuration"
+
+    response :code => 200, :schema => "config_files.schema"
+  end
+
+  get "/config_files/:id" do
+    description "Get a configuration file"
+
+    response :code => 200, :schema => "config_file.schema"
+  end
+
+end
+
+
+api "Environment Variables", :stability => :prototype do
+
+end
